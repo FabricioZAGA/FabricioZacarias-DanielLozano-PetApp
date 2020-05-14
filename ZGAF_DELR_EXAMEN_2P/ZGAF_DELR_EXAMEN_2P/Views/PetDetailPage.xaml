@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:triggers="clr-namespace:ZGAF_DELR_EXAMEN_2P.Triggers"
+             xmlns:converter="clr-namespace:ZGAF_DELR_EXAMEN_2P.Converters"
+             mc:Ignorable="d"
+             x:Class="ZGAF_DELR_EXAMEN_2P.Views.PetDetailPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Eliminar" Command="{Binding DeleteCommand}" />
+        <ToolbarItem Text="Guardar" Command="{Binding SaveCommand}" />
+        <ToolbarItem Text="Mapa" Command="{Binding MapCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="30">
+                <ActivityIndicator
+                    IsRunning="{Binding IsBusy}"
+                    d:IsRunning="True" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <ImageButton 
+                         Grid.Row="0"
+                         Grid.Column="0"
+                         Grid.RowSpan="3"
+
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        CornerRadius="150"
+                        Command="{Binding SelectPictureCommand}"
+                        Source="{Binding ImageBase64, Converter={StaticResource ImageConverter}}" 
+                        HeightRequest="300"
+                        WidthRequest="300"/>
+                    <Label Grid.Row="0"
+                         Grid.Column="1" Text="{Binding Name}" FontSize="Header" />
+                    <Label Grid.Row="1"
+                         Grid.Column="1" Text="{Binding Notes}" FontSize="Large" />
+                    
+                    <ImageButton 
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Source="camera.png"
+                        HeightRequest="30"
+                        Command="{Binding TakePictureCommand}"
+                        />
+                </Grid>
+                
+                
+                <Label Text="Nombre" FontSize="Medium" Margin="0,15,0,0"/>
+                <Entry 
+                    Placeholder="Nombre" 
+                    Text="{Binding Name}" />
+                <Label Text="Fecha de Nacimiento" FontSize="Medium" Margin="0,15,0,0"/>
+                <DatePicker
+                    Date="{Binding BornDate}" 
+                    HorizontalOptions="Start"/>
+                <Label Text="Peso" FontSize="Medium" Margin="0,15,0,0"/>
+                <Entry
+                    Placeholder="Peso"
+                    Text="{Binding Weight}">
+                    <Entry.Triggers>
+                        <EventTrigger
+                            Event="TextChanged">
+                            <triggers:WeightTrigger />
+                        </EventTrigger>
+                    </Entry.Triggers>
+                </Entry>
+                <Stepper
+                    Increment="1"
+                    Maximum="100"
+                    Minimum="1"
+                    Value="{Binding Weight}" />
+                <Label Text="Género" FontSize="Medium" Margin="0,15,0,0"/>
+                <Picker x:Name="picker"
+                        HorizontalOptions="Start"
+                        WidthRequest="300"
+                        SelectedItem="{Binding Gender}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Macho</x:String>
+                            <x:String>Hembra</x:String>
+                            <x:String>Prefiere no decirlo</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Label Text="Raza" FontSize="Medium" Margin="0,15,0,0"/>
+                <Entry
+                    Placeholder="Raza"
+                    Text="{Binding Breed}" />
+                <Label Text="Dirección" FontSize="Medium" Margin="0,15,0,0"/>
+                <Entry
+                    Placeholder="Dirección"
+                    Text="{Binding Direction}" />
+                
+                <Button
+                    Text="Guardar la ubicación"
+                    Command="{Binding GetLocationCommand}" />
+                <Label Text="Notas del prro" FontSize="Medium" Margin="0,15,0,0"/>
+                <Editor
+                    Placeholder="Notas"
+                    VerticalOptions="FillAndExpand"
+                    Text="{Binding Notes}" />
+                
+                
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
